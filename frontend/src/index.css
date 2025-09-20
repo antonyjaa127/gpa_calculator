@@ -12,10 +12,48 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   background-attachment: fixed;
-  color: #ffffff;
   overflow-x: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Koyu Tema (Varsayılan) */
+body[data-theme="dark"] {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+}
+
+/* Galaxy Tema */
+body[data-theme="light"] {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 25%, #5b21b6 50%, #7c3aed 75%, #a855f7 100%);
+  color: #f8fafc;
+  position: relative;
+}
+
+/* Galaxy tema için yıldız efekti */
+body[data-theme="light"]::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+    radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 160px 30px, #fff, transparent);
+  background-repeat: repeat;
+  background-size: 200px 100px;
+  animation: sparkle 20s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes sparkle {
+  from { transform: translateX(0); }
+  to { transform: translateX(200px); }
 }
 
 body::before {
@@ -93,7 +131,8 @@ body::before {
 }
 
 /* Form elemanları */
-.MuiInputBase-root {
+/* Input Fields - Koyu Tema */
+body[data-theme="dark"] .MuiInputBase-root {
   background: rgba(255, 255, 255, 0.08) !important;
   border-radius: 12px !important;
   backdrop-filter: blur(10px) !important;
@@ -101,16 +140,40 @@ body::before {
   transition: all 0.3s ease !important;
 }
 
-.MuiInputBase-root:hover {
+body[data-theme="dark"] .MuiInputBase-root:hover {
   background: rgba(255, 255, 255, 0.12) !important;
 }
 
-.MuiInputBase-root.Mui-focused {
+body[data-theme="dark"] .MuiInputBase-root.Mui-focused {
   background: rgba(255, 255, 255, 0.15) !important;
   box-shadow: 0 0 0 2px rgba(147, 197, 253, 0.3) !important;
 }
 
-.MuiFormLabel-root {
+/* Input Fields - Galaxy Tema */
+body[data-theme="light"] .MuiInputBase-root {
+  background: rgba(139, 92, 246, 0.15) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(15px) !important;
+  color: #f8fafc !important;
+  transition: all 0.3s ease !important;
+  border: 1px solid rgba(139, 92, 246, 0.3) !important;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.1) !important;
+}
+
+body[data-theme="light"] .MuiInputBase-root:hover {
+  background: rgba(139, 92, 246, 0.2) !important;
+  border-color: rgba(139, 92, 246, 0.5) !important;
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.2) !important;
+}
+
+body[data-theme="light"] .MuiInputBase-root.Mui-focused {
+  background: rgba(139, 92, 246, 0.25) !important;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.4), 0 8px 25px rgba(139, 92, 246, 0.3) !important;
+  border-color: rgba(139, 92, 246, 0.7) !important;
+}
+
+/* Form Labels - Koyu Tema */
+body[data-theme="dark"] .MuiFormLabel-root {
   color: rgba(255, 255, 255, 0.9) !important;
   font-weight: 600 !important;
   background: rgba(0, 0, 0, 0.3) !important;
@@ -119,12 +182,12 @@ body::before {
   backdrop-filter: blur(10px) !important;
 }
 
-.MuiFormLabel-root.Mui-focused {
+body[data-theme="dark"] .MuiFormLabel-root.Mui-focused {
   color: #ffffff !important;
   background: rgba(99, 102, 241, 0.4) !important;
 }
 
-.MuiInputLabel-root {
+body[data-theme="dark"] .MuiInputLabel-root {
   color: rgba(255, 255, 255, 0.9) !important;
   font-weight: 600 !important;
   background: rgba(0, 0, 0, 0.4) !important;
@@ -133,9 +196,46 @@ body::before {
   backdrop-filter: blur(10px) !important;
 }
 
-.MuiInputLabel-root.Mui-focused {
+body[data-theme="dark"] .MuiInputLabel-root.Mui-focused {
   color: #ffffff !important;
   background: rgba(99, 102, 241, 0.5) !important;
+}
+
+/* Form Labels - Galaxy Tema */
+body[data-theme="light"] .MuiFormLabel-root {
+  color: #f8fafc !important;
+  font-weight: 600 !important;
+  background: rgba(139, 92, 246, 0.3) !important;
+  padding: 2px 8px !important;
+  border-radius: 6px !important;
+  backdrop-filter: blur(15px) !important;
+  border: 1px solid rgba(139, 92, 246, 0.4) !important;
+  text-shadow: 0 0 10px rgba(139, 92, 246, 0.5) !important;
+}
+
+body[data-theme="light"] .MuiFormLabel-root.Mui-focused {
+  color: #ffffff !important;
+  background: rgba(139, 92, 246, 0.5) !important;
+  border-color: rgba(139, 92, 246, 0.7) !important;
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.4) !important;
+}
+
+body[data-theme="light"] .MuiInputLabel-root {
+  color: #f8fafc !important;
+  font-weight: 600 !important;
+  background: rgba(139, 92, 246, 0.3) !important;
+  padding: 2px 8px !important;
+  border-radius: 6px !important;
+  backdrop-filter: blur(15px) !important;
+  border: 1px solid rgba(139, 92, 246, 0.4) !important;
+  text-shadow: 0 0 10px rgba(139, 92, 246, 0.5) !important;
+}
+
+body[data-theme="light"] .MuiInputLabel-root.Mui-focused {
+  color: #ffffff !important;
+  background: rgba(139, 92, 246, 0.5) !important;
+  border-color: rgba(139, 92, 246, 0.7) !important;
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.4) !important;
 }
 
 .MuiOutlinedInput-notchedOutline {
@@ -219,16 +319,52 @@ body::before {
   background: rgba(255, 255, 255, 0.08) !important;
 }
 
-.MuiMenuItem-root {
-  color: #1f2937 !important;
+/* Dropdown menüler - Koyu Tema */
+body[data-theme="dark"] .MuiMenuItem-root {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  transition: all 0.2s ease !important;
 }
 
-.MuiMenuItem-root:hover {
-  background-color: rgba(99, 102, 241, 0.1) !important;
+body[data-theme="dark"] .MuiMenuItem-root:hover {
+  background-color: rgba(99, 102, 241, 0.2) !important;
 }
 
-/* FormControl için özel düzeltme */
-.MuiFormControl-root .MuiInputLabel-root {
+/* Dropdown menüler - Galaxy Tema */
+body[data-theme="light"] .MuiMenuItem-root {
+  color: #f8fafc !important;
+  background: rgba(139, 92, 246, 0.3) !important;
+  backdrop-filter: blur(15px) !important;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.4) !important;
+  transition: all 0.2s ease !important;
+}
+
+body[data-theme="light"] .MuiMenuItem-root:hover {
+  background-color: rgba(139, 92, 246, 0.5) !important;
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.4) !important;
+}
+
+/* Dropdown Paper (Ana container) - Galaxy Tema */
+body[data-theme="light"] .MuiPaper-root.MuiMenu-paper {
+  background: rgba(30, 27, 75, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(139, 92, 246, 0.5) !important;
+  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.4) !important;
+  border-radius: 12px !important;
+}
+
+/* Dropdown Paper (Ana container) - Koyu Tema */
+body[data-theme="dark"] .MuiPaper-root.MuiMenu-paper {
+  background: rgba(0, 0, 0, 0.85) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 12px !important;
+}
+
+/* FormControl için özel düzeltme - Koyu Tema */
+body[data-theme="dark"] .MuiFormControl-root .MuiInputLabel-root {
   color: rgba(255, 255, 255, 0.95) !important;
   font-weight: 600 !important;
   background: rgba(0, 0, 0, 0.5) !important;
@@ -238,10 +374,30 @@ body::before {
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
-.MuiFormControl-root .MuiInputLabel-root.Mui-focused {
+body[data-theme="dark"] .MuiFormControl-root .MuiInputLabel-root.Mui-focused {
   color: #ffffff !important;
   background: rgba(99, 102, 241, 0.6) !important;
   border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* FormControl için özel düzeltme - Galaxy Tema */
+body[data-theme="light"] .MuiFormControl-root .MuiInputLabel-root {
+  color: #f8fafc !important;
+  font-weight: 600 !important;
+  background: rgba(139, 92, 246, 0.4) !important;
+  padding: 4px 10px !important;
+  border-radius: 8px !important;
+  backdrop-filter: blur(15px) !important;
+  border: 1px solid rgba(139, 92, 246, 0.5) !important;
+  text-shadow: 0 0 10px rgba(139, 92, 246, 0.6) !important;
+  box-shadow: 0 2px 10px rgba(139, 92, 246, 0.2) !important;
+}
+
+body[data-theme="light"] .MuiFormControl-root .MuiInputLabel-root.Mui-focused {
+  color: #ffffff !important;
+  background: rgba(139, 92, 246, 0.6) !important;
+  border-color: rgba(139, 92, 246, 0.8) !important;
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.5) !important;
 }
 
 /* Divider */

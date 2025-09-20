@@ -36,6 +36,7 @@ import {
   type SavedCalculation 
 } from './utils/storage'
 import GPAChart from './components/GPAChart'
+import ThemeToggle from './components/ThemeToggle'
 
 const gradeOptions = [
   'AA','BA','BB','CB','CC','DC','DD','FF'
@@ -172,23 +173,26 @@ function App() {
 
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
-      <Typography 
-        variant="h3" 
-        fontWeight={800} 
-        textAlign="center" 
-        gutterBottom
-        sx={{
-          background: 'linear-gradient(135deg, #ffffff 0%, #e0e7ff 50%, #c7d2fe 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-          textShadow: '0 4px 20px rgba(255,255,255,0.3)',
-          mb: 4,
-          letterSpacing: '-0.02em'
-        }}
-      >
-        GPA Hesaplayıcı
-      </Typography>
+      {/* Header with Title and Theme Toggle */}
+      <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
+        <Typography 
+          variant="h3" 
+          fontWeight={800} 
+          sx={{
+            background: 'linear-gradient(45deg, #6366f1 30%, #ec4899 90%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            textShadow: '0 0 30px rgba(99, 102, 241, 0.3)',
+            flexGrow: 1,
+            textAlign: 'center',
+            letterSpacing: '-0.02em'
+          }}
+        >
+          GPA Hesaplayıcı
+        </Typography>
+        <ThemeToggle />
+      </Box>
 
       {/* Geçmiş Hesaplamalar */}
       {savedCalculations.length > 0 && (
