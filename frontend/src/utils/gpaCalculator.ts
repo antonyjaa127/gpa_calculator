@@ -94,7 +94,7 @@ export function calculateBothGPA(
 ): GPAResult {
   const termGPA = calculateTermGPA(newCourses);
   
-  if (!existingGPA || existingCredits === 0) {
+  if (existingGPA === null || existingGPA === undefined || existingCredits === 0) {
     return {
       termGPA,
       cumulativeGPA: termGPA

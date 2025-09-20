@@ -35,6 +35,7 @@ import {
   getLastFormData,
   type SavedCalculation 
 } from './utils/storage'
+import GPAChart from './components/GPAChart'
 
 const gradeOptions = [
   'AA','BA','BB','CB','CC','DC','DD','FF'
@@ -93,11 +94,11 @@ function App() {
       }
 
       const existingGPA = values.hasExisting && values.existing_gpa && values.existing_gpa.trim() !== '' ? Number(values.existing_gpa) : null
-      const existingCredits = values.hasExisting ? values.existing_credits : 0
+      const existingCredits = values.hasExisting ? Number(values.existing_credits) : 0
       
       const courses: Course[] = values.courses.map((c) => ({
-        grade: typeof c.grade === 'string' && /^\d+(\.\d+)?$/.test(c.grade) ? Number(c.grade) : c.grade,
-        credit: c.credit
+        grade: c.grade,
+        credit: Number(c.credit)
       }))
 
       const calculationResult = calculateBothGPA(existingGPA, existingCredits, courses)
@@ -478,6 +479,13 @@ function App() {
             </Card>
           </Grid>
         </Grid>
+      )}
+
+      {/* GPA Trend Grafiği */}
+      {savedCalculations.length > 0 && (
+        <Box sx={{ mt: 3 }}>
+          <GPAChart calculations={savedCalculations} />
+        </Box>
       )}
 
     </Container>
