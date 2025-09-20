@@ -113,7 +113,7 @@ export default function GPAChart({ calculations }: GPAChartProps) {
           color: '#ffffff',
           font: {
             size: 16,
-            weight: '700' as const
+            weight: 'bold' as const
           },
           padding: 20,
           usePointStyle: true,
@@ -126,7 +126,7 @@ export default function GPAChart({ calculations }: GPAChartProps) {
         color: '#ffffff',
         font: {
           size: 20,
-          weight: '800' as const
+          weight: 'bold' as const
         },
         padding: {
           top: 10,
@@ -172,7 +172,7 @@ export default function GPAChart({ calculations }: GPAChartProps) {
           color: '#ffffff',
           font: {
             size: 14,
-            weight: '600' as const
+            weight: 'bold' as const
           },
           stepSize: 0.5,
           callback: function(value: any) {
@@ -185,7 +185,7 @@ export default function GPAChart({ calculations }: GPAChartProps) {
           color: '#ffffff',
           font: {
             size: 16,
-            weight: '700' as const
+            weight: 'bold' as const
           }
         }
       },
@@ -198,7 +198,7 @@ export default function GPAChart({ calculations }: GPAChartProps) {
           color: '#ffffff',
           font: {
             size: 13,
-            weight: '600' as const
+            weight: 'bold' as const
           },
           maxRotation: 45
         },
@@ -208,7 +208,7 @@ export default function GPAChart({ calculations }: GPAChartProps) {
           color: '#ffffff',
           font: {
             size: 16,
-            weight: '700' as const
+            weight: 'bold' as const
           }
         }
       }
