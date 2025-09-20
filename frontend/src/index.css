@@ -1,0 +1,281 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-attachment: fixed;
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+#root {
+  padding: 32px 16px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Ana kart stilleri */
+.MuiCard-root {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 24px !important;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.MuiCard-root:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    0 4px 12px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Sonuç kartları için özel stiller */
+.result-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.06) 100%) !important;
+  backdrop-filter: blur(25px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 20px !important;
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.result-card:hover {
+  transform: translateY(-4px) scale(1.02) !important;
+  box-shadow: 
+    0 16px 48px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Tipografi */
+.MuiTypography-root {
+  color: #ffffff !important;
+}
+
+.MuiTypography-h4 {
+  font-weight: 800 !important;
+  background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+/* Form elemanları */
+.MuiInputBase-root {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(10px) !important;
+  color: #ffffff !important;
+  transition: all 0.3s ease !important;
+}
+
+.MuiInputBase-root:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+.MuiInputBase-root.Mui-focused {
+  background: rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 0 0 2px rgba(147, 197, 253, 0.3) !important;
+}
+
+.MuiFormLabel-root {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 600 !important;
+  background: rgba(0, 0, 0, 0.3) !important;
+  padding: 2px 8px !important;
+  border-radius: 4px !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+.MuiFormLabel-root.Mui-focused {
+  color: #ffffff !important;
+  background: rgba(99, 102, 241, 0.4) !important;
+}
+
+.MuiInputLabel-root {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 600 !important;
+  background: rgba(0, 0, 0, 0.4) !important;
+  padding: 2px 8px !important;
+  border-radius: 4px !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+.MuiInputLabel-root.Mui-focused {
+  color: #ffffff !important;
+  background: rgba(99, 102, 241, 0.5) !important;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  border-width: 1px !important;
+}
+
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #93c5fd !important;
+  border-width: 2px !important;
+}
+
+/* Butonlar */
+.MuiButton-containedPrimary {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%) !important;
+  border: none !important;
+  border-radius: 16px !important;
+  box-shadow: 
+    0 4px 16px rgba(99, 102, 241, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  padding: 14px 32px !important;
+  text-transform: none !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.MuiButton-containedPrimary:hover {
+  background: linear-gradient(135deg, #5855f7 0%, #7c3aed 50%, #db2777 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 
+    0 8px 24px rgba(99, 102, 241, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+.MuiButton-root:not(.MuiButton-containedPrimary) {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 12px !important;
+  color: #ffffff !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+}
+
+.MuiButton-root:not(.MuiButton-containedPrimary):hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* İkonlar */
+.MuiIconButton-root {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+  transition: all 0.3s ease !important;
+}
+
+.MuiIconButton-root:hover {
+  background: rgba(239, 68, 68, 0.2) !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
+  transform: scale(1.05) !important;
+}
+
+/* Switch */
+.MuiSwitch-root .MuiSwitch-switchBase.Mui-checked {
+  color: #6366f1 !important;
+}
+
+.MuiSwitch-root .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track {
+  background-color: #6366f1 !important;
+}
+
+/* Select */
+.MuiSelect-root {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.MuiMenuItem-root {
+  color: #1f2937 !important;
+}
+
+.MuiMenuItem-root:hover {
+  background-color: rgba(99, 102, 241, 0.1) !important;
+}
+
+/* FormControl için özel düzeltme */
+.MuiFormControl-root .MuiInputLabel-root {
+  color: rgba(255, 255, 255, 0.95) !important;
+  font-weight: 600 !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  backdrop-filter: blur(15px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.MuiFormControl-root .MuiInputLabel-root.Mui-focused {
+  color: #ffffff !important;
+  background: rgba(99, 102, 241, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Divider */
+.MuiDivider-root {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%) !important;
+  height: 1px !important;
+  border: none !important;
+}
+
+/* Animasyonlar */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.MuiCard-root {
+  animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #root {
+    padding: 16px 8px;
+  }
+  
+  .MuiCard-root {
+    border-radius: 20px !important;
+    margin: 8px 0 !important;
+  }
+}
