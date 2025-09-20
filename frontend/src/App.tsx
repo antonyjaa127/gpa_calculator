@@ -20,30 +20,21 @@ import {
 } from '@mui/material'
 import { AddCircle, RemoveCircle } from '@mui/icons-material'
 import { useForm, Controller, useFieldArray } from 'react-hook-form'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { calculateBothGPA, type Course } from './utils/gpaCalculator'
 
 const gradeOptions = [
   'AA','BA','BB','CB','CC','DC','DD','FF'
 ]
 
-const CourseSchema = z.object({
-  grade: z.union([
-    z.string().min(1),
-    z.number()
-  ]),
-  credit: z.coerce.number().int().nonnegative()
-})
-
-const FormSchema = z.object({
-  hasExisting: z.boolean(),
-  existing_gpa: z.string().optional().default(''),
-  existing_credits: z.coerce.number().int().nonnegative().default(0),
-  courses: z.array(CourseSchema).min(1, 'En az bir ders ekleyiniz')
-})
-
-type FormValues = z.infer<typeof FormSchema>
+interface FormValues {
+  hasExisting: boolean
+  existing_gpa: string
+  existing_credits: number
+  courses: {
+    grade: string | number
+    credit: number
+  }[]
+}
 
 type GPAResult = {
   termGPA: number
@@ -54,7 +45,6 @@ function App() {
   const [result, setResult] = useState<GPAResult | null>(null)
 
   const { control, handleSubmit, watch, setValue } = useForm<FormValues>({
-    resolver: zodResolver(FormSchema),
     defaultValues: {
       hasExisting: false,
       existing_gpa: '',
@@ -68,6 +58,12 @@ function App() {
 
   const onSubmit = (values: FormValues) => {
     try {
+      // Validate courses
+      if (!values.courses || values.courses.length === 0) {
+        alert('En az bir ders eklemelisiniz.')
+        return
+      }
+
       const existingGPA = values.hasExisting && values.existing_gpa && values.existing_gpa.trim() !== '' ? Number(values.existing_gpa) : null
       const existingCredits = values.hasExisting ? values.existing_credits : 0
       
@@ -241,7 +237,7 @@ function App() {
                   <Button 
                   variant="contained" 
                   size="large" 
-                  onClick={handleSubmit(onSubmit as any)}
+                  onClick={handleSubmit(onSubmit)}
                   sx={{
                     fontSize: '18px',
                     fontWeight: 600,
