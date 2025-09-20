@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import {
   Container,
@@ -16,11 +16,25 @@ import {
   Select,
   MenuItem,
   InputLabel,
-  FormControl
+  FormControl,
+  Collapse,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  Chip
 } from '@mui/material'
-import { AddCircle, RemoveCircle } from '@mui/icons-material'
+import { AddCircle, RemoveCircle, History, Delete, Save } from '@mui/icons-material'
 import { useForm, Controller, useFieldArray } from 'react-hook-form'
 import { calculateBothGPA, type Course } from './utils/gpaCalculator'
+import { 
+  saveCalculation, 
+  getSavedCalculations, 
+  deleteCalculation, 
+  saveFormData, 
+  getLastFormData,
+  type SavedCalculation 
+} from './utils/storage'
 
 const gradeOptions = [
   'AA','BA','BB','CB','CC','DC','DD','FF'
@@ -43,8 +57,10 @@ type GPAResult = {
 
 function App() {
   const [result, setResult] = useState<GPAResult | null>(null)
+  const [savedCalculations, setSavedCalculations] = useState<SavedCalculation[]>([])
+  const [showHistory, setShowHistory] = useState(false)
 
-  const { control, handleSubmit, watch, setValue } = useForm<FormValues>({
+  const { control, handleSubmit, watch, setValue, reset } = useForm<FormValues>({
     defaultValues: {
       hasExisting: false,
       existing_gpa: '',
@@ -52,6 +68,18 @@ function App() {
       courses: [{ grade: 'AA', credit: 3 }]
     }
   })
+
+  // Component mount olduğunda kayıtlı verileri yükle
+  useEffect(() => {
+    const savedCalcs = getSavedCalculations()
+    setSavedCalculations(savedCalcs)
+
+    // Son form verilerini yükle
+    const lastFormData = getLastFormData()
+    if (lastFormData) {
+      reset(lastFormData)
+    }
+  }, [])
 
   const { fields, append, remove } = useFieldArray({ control, name: 'courses' })
   const hasExisting = watch('hasExisting')
@@ -72,12 +100,32 @@ function App() {
         credit: c.credit
       }))
 
-      const result = calculateBothGPA(existingGPA, existingCredits, courses)
+      const calculationResult = calculateBothGPA(existingGPA, existingCredits, courses)
       
-      setResult({
-        termGPA: Number(result.termGPA.toFixed(2)),
-        cumulativeGPA: Number(result.cumulativeGPA.toFixed(2))
+      const finalResult = {
+        termGPA: Number(calculationResult.termGPA.toFixed(2)),
+        cumulativeGPA: Number(calculationResult.cumulativeGPA.toFixed(2))
+      }
+      
+      setResult(finalResult)
+
+      // Form verilerini kaydet (otomatik kaydetme)
+      saveFormData(values)
+
+      // Hesaplamayı kaydet
+      const calculationId = saveCalculation({
+        hasExisting: values.hasExisting,
+        existingGPA: existingGPA || undefined,
+        existingCredits: existingCredits || undefined,
+        courses: values.courses,
+        results: finalResult,
+        label: `Hesaplama ${new Date().toLocaleDateString('tr-TR')}`
       })
+
+      // Kayıtlı hesaplamaları güncelle
+      setSavedCalculations(getSavedCalculations())
+
+      console.log('Hesaplama kaydedildi:', calculationId)
     } catch (error) {
       console.error('Hesaplama hatası:', error)
       alert('Hesaplama sırasında bir hata oluştu. Lütfen girdiğiniz değerleri kontrol edin.')
@@ -90,6 +138,35 @@ function App() {
       setValue('existing_gpa', '')
       setValue('existing_credits', 0)
     }
+  }
+
+  // Geçmiş hesaplamayı yükle
+  const loadCalculation = (calculation: SavedCalculation) => {
+    reset({
+      hasExisting: calculation.hasExisting,
+      existing_gpa: calculation.existingGPA?.toString() || '',
+      existing_credits: calculation.existingCredits || 0,
+      courses: calculation.courses
+    })
+    setResult(calculation.results)
+    setShowHistory(false)
+  }
+
+  // Hesaplamayı sil
+  const handleDeleteCalculation = (id: string) => {
+    deleteCalculation(id)
+    setSavedCalculations(getSavedCalculations())
+  }
+
+  // Tarih formatı
+  const formatDate = (timestamp: number) => {
+    return new Date(timestamp).toLocaleString('tr-TR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    })
   }
 
   return (
@@ -111,6 +188,85 @@ function App() {
       >
         GPA Hesaplayıcı
       </Typography>
+
+      {/* Geçmiş Hesaplamalar */}
+      {savedCalculations.length > 0 && (
+        <Card elevation={2} sx={{ mb: 3 }}>
+          <CardContent>
+            <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+              <Typography variant="h6" display="flex" alignItems="center" gap={1}>
+                <History />
+                Geçmiş Hesaplamalar ({savedCalculations.length})
+              </Typography>
+              <Button
+                startIcon={<History />}
+                onClick={() => setShowHistory(!showHistory)}
+                size="small"
+              >
+                {showHistory ? 'Gizle' : 'Göster'}
+              </Button>
+            </Box>
+            
+            <Collapse in={showHistory}>
+              <List dense>
+                {savedCalculations.map((calc) => (
+                  <ListItem 
+                    key={calc.id}
+                    sx={{ 
+                      border: '1px solid rgba(255,255,255,0.1)', 
+                      borderRadius: '8px', 
+                      mb: 1,
+                      cursor: 'pointer',
+                      '&:hover': {
+                        backgroundColor: 'rgba(255,255,255,0.05)'
+                      }
+                    }}
+                    onClick={() => loadCalculation(calc)}
+                  >
+                    <ListItemText
+                      primary={
+                        <Box display="flex" alignItems="center" gap={1}>
+                          <Typography variant="subtitle2">
+                            {calc.label}
+                          </Typography>
+                          <Chip 
+                            label={`Dönem: ${calc.results.termGPA}`} 
+                            size="small" 
+                            color="primary"
+                          />
+                          <Chip 
+                            label={`Genel: ${calc.results.cumulativeGPA}`} 
+                            size="small" 
+                            color="secondary"
+                          />
+                        </Box>
+                      }
+                      secondary={
+                        <Typography variant="caption" color="text.secondary">
+                          {formatDate(calc.timestamp)} • {calc.courses.length} ders
+                        </Typography>
+                      }
+                    />
+                    <ListItemSecondaryAction>
+                      <IconButton
+                        edge="end"
+                        size="small"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleDeleteCalculation(calc.id)
+                        }}
+                        sx={{ color: 'error.main' }}
+                      >
+                        <Delete />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                ))}
+              </List>
+            </Collapse>
+          </CardContent>
+        </Card>
+      )}
 
       <Card elevation={4}>
         <CardContent>
