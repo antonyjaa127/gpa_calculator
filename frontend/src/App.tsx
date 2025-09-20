@@ -24,7 +24,7 @@ import {
   ListItemSecondaryAction,
   Chip
 } from '@mui/material'
-import { AddCircle, RemoveCircle, History, Delete, Save } from '@mui/icons-material'
+import { AddCircle, RemoveCircle, History, Delete } from '@mui/icons-material'
 import { useForm, Controller, useFieldArray } from 'react-hook-form'
 import { calculateBothGPA, type Course } from './utils/gpaCalculator'
 import { 
