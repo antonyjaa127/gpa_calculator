@@ -38,7 +38,7 @@ const CourseSchema = z.object({
 
 const FormSchema = z.object({
   hasExisting: z.boolean(),
-  existing_gpa: z.coerce.number().nullable().optional(),
+  existing_gpa: z.string().optional().default(''),
   existing_credits: z.coerce.number().int().nonnegative().default(0),
   courses: z.array(CourseSchema).min(1, 'En az bir ders ekleyiniz')
 })
@@ -68,7 +68,7 @@ function App() {
 
   const onSubmit = (values: FormValues) => {
     try {
-      const existingGPA = values.hasExisting && values.existing_gpa ? Number(values.existing_gpa) : null
+      const existingGPA = values.hasExisting && values.existing_gpa && values.existing_gpa.trim() !== '' ? Number(values.existing_gpa) : null
       const existingCredits = values.hasExisting ? values.existing_credits : 0
       
       const courses: Course[] = values.courses.map((c) => ({
@@ -238,10 +238,10 @@ function App() {
 
             <Grid size={12}>
               <Box textAlign="right">
-                <Button 
+                  <Button 
                   variant="contained" 
                   size="large" 
-                  onClick={handleSubmit(onSubmit)}
+                  onClick={handleSubmit(onSubmit as any)}
                   sx={{
                     fontSize: '18px',
                     fontWeight: 600,
